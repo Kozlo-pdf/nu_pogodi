@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nu, Pogodi! - Pixel Platformer</title>
+<meta name="description" content="A free fan-made pixel platformer inspired by the Soviet cartoon Nu, Pogodi! Run, stomp, beat bosses. Two chapters, English / Polski / Русский.">
+<meta property="og:title" content="Nu, Pogodi! - Pixel Platformer">
+<meta property="og:description" content="Free fan-made pixel platformer. Escape the Wolf, then take on six bosses in Chapter 2.">
+<meta property="og:image" content="img/boss1.jpg">
+<meta name="theme-color" content="#0d1030">
+<style>
+  :root{
+    --bg:#0d1030; --bg2:#151a45; --card:#1b2160; --ink:#f4f1ff; --mute:#b4b9e6;
+    --gold:#ffd84a; --red:#ff5a5f; --green:#6ff08c; --line:#33398a;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Consolas,"Courier New",ui-monospace,monospace}
+  a{color:var(--gold)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  /* top bar */
+  header.bar{position:sticky;top:0;z-index:20;background:rgba(13,16,48,.92);backdrop-filter:blur(6px);border-bottom:2px solid var(--line)}
+  header.bar .wrap{display:flex;align-items:center;gap:16px;height:58px}
+  .brand{font-weight:900;letter-spacing:1px;color:var(--gold);text-decoration:none;font-size:18px}
+  nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+  nav a{color:var(--mute);text-decoration:none;font-size:15px}
+  nav a:hover{color:var(--ink)}
+  .lang{display:flex;gap:4px}
+  .lang button{background:transparent;border:2px solid var(--line);color:var(--mute);padding:3px 9px;font:inherit;font-size:13px;cursor:pointer;border-radius:6px}
+  .lang button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:70px 0 60px;
+    background:linear-gradient(#0a0c2a,#1a2060 60%,#33398a)}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#ffe9a0 1px,transparent 1.5px);
+    background-size:90px 90px,140px 140px;background-position:0 0,40px 60px;opacity:.5}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center}
+  h1{margin:0 0 10px;font-size:clamp(40px,7vw,76px);line-height:1;color:var(--red);letter-spacing:2px;
+     text-shadow:4px 4px 0 #1e0a14,0 0 30px rgba(255,90,95,.35);text-transform:uppercase}
+  .tag{font-size:21px;color:var(--ink);margin:0 0 24px}
+  .btns{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:12px}
+  .btn{display:inline-block;padding:14px 26px;font:inherit;font-weight:900;font-size:19px;text-decoration:none;
+       border:3px solid #1e1500;background:var(--gold);color:#241a00;border-radius:8px;box-shadow:0 6px 0 #a8860f;transition:transform .08s,box-shadow .08s}
+  .btn:hover{transform:translateY(2px);box-shadow:0 4px 0 #a8860f}
+  .btn:active{transform:translateY(6px);box-shadow:0 0 0 #a8860f}
+  .btn.alt{background:transparent;color:var(--ink);border-color:var(--line);box-shadow:0 6px 0 #1a1f55}
+  .meta{color:var(--mute);font-size:14px}
+  .hero img.shot{border:4px solid #0a0c24;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.55);image-rendering:pixelated}
+  /* sections */
+  section{padding:64px 0}
+  section:nth-of-type(even){background:var(--bg2)}
+  h2{margin:0 0 8px;font-size:34px;color:var(--gold);text-transform:uppercase;letter-spacing:1px}
+  .lead{color:var(--mute);margin:0 0 30px;max-width:720px}
+  .grid{display:grid;gap:20px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .card{background:var(--card);border:3px solid var(--line);border-radius:12px;padding:20px}
+  .card h3{margin:0 0 6px;font-size:20px;color:var(--ink)}
+  .card p{margin:0;color:var(--mute);font-size:15.5px}
+  .ico{font-size:30px;margin-bottom:8px}
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .gallery button{padding:0;border:3px solid var(--line);border-radius:10px;overflow:hidden;background:#000;cursor:zoom-in;position:relative}
+  .gallery img{width:100%;image-rendering:pixelated;transition:transform .2s}
+  .gallery button:hover img{transform:scale(1.05)}
+  .gallery button:focus-visible,.btn:focus-visible,.lang button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .gallery span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.85));padding:18px 10px 6px;font-size:13px;color:#fff;text-align:left}
+  /* chapters */
+  .chap{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;margin-bottom:34px}
+  .chap img{border:4px solid #0a0c24;border-radius:10px;image-rendering:pixelated}
+  .pill{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:900;padding:2px 10px;border-radius:99px;letter-spacing:1px;margin-bottom:8px}
+  .pill.green{background:#2ea055}
+  .bosses{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px}
+  .boss{display:flex;gap:14px;align-items:center;background:var(--card);border:3px solid var(--line);border-radius:12px;padding:10px}
+  .boss img{width:140px;border-radius:6px;image-rendering:pixelated;flex:none}
+  .boss b{display:block;color:var(--gold)}
+  .boss small{color:var(--mute);font-size:14px;line-height:1.35;display:block}
+  /* controls */
+  table{border-collapse:collapse;width:100%;max-width:640px}
+  td{padding:10px 14px;border-bottom:2px solid var(--line)}
+  td:first-child{width:46%}
+  kbd{background:#0a0c24;border:2px solid var(--line);border-bottom-width:4px;border-radius:6px;padding:1px 8px;font:inherit;font-size:14px;color:var(--gold)}
+  details{background:var(--card);border:3px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:12px}
+  summary{cursor:pointer;font-weight:900}
+  details p{color:var(--mute);margin:10px 0 0}
+  footer{background:#080a22;border-top:2px solid var(--line);padding:34px 0;color:var(--mute);font-size:14px}
+  footer p{margin:0 0 10px;max-width:880px}
+  /* lightbox */
+  #lb{position:fixed;inset:0;background:rgba(4,5,20,.94);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  #lb.on{display:flex}
+  #lb img{max-height:88vh;border:4px solid #0a0c24;border-radius:10px;image-rendering:pixelated}
+  #lb button{position:absolute;top:14px;right:18px;font:inherit;font-size:30px;background:none;border:none;color:#fff;cursor:pointer}
+  @media(max-width:820px){
+    .hero .wrap,.chap{grid-template-columns:1fr}
+    nav a.hide{display:none}
+    section{padding:46px 0}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">НУ, ПОГОДИ!</a>
+    <nav>
+      <a class="hide" href="#screens" data-i="nav_shots">Screenshots</a>
+      <a class="hide" href="#chapters" data-i="nav_chapters">Chapters</a>
+      <a class="hide" href="#controls" data-i="nav_controls">Controls</a>
+      <a href="#download" data-i="nav_dl">Download</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-l="en" aria-pressed="true">EN</button>
+        <button data-l="pl" aria-pressed="false">PL</button>
+        <button data-l="ru" aria-pressed="false">RU</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Nu, Pogodi!</h1>
+      <p class="tag" data-i="tagline">A free pixel platformer fan game. Outrun the Wolf, stomp the bad guys, beat six bosses.</p>
+      <div class="btns">
+        <a class="btn" href="download/NuPogodi.exe" download data-i="dl">Download for Windows</a>
+        <a class="btn alt" href="#screens" data-i="see">See screenshots</a>
+      </div>
+      <div class="meta" data-i="dl_meta">Free - Windows 10/11 - 32 MB - no install, just run it</div>
+    </div>
+    <img class="shot" src="img/boss1.jpg" alt="Boss fight against the Magician Cat in the circus" width="960" height="600">
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2 data-i="h_feat">What's inside</h2>
+    <p class="lead" data-i="lead_feat">Made with tiny pixels, cartoon cutscenes and a lot of carrots.</p>
+    <div class="grid g3">
+      <div class="card"><div class="ico">🏃</div><h3 data-i="f1t">Two very different chapters</h3><p data-i="f1d">Chapter 1 is a chase: the Wolf is right behind you. Chapter 2 is a classic platformer with pits, enemies and bosses.</p></div>
+      <div class="card"><div class="ico">👑</div><h3 data-i="f2t">Six boss fights</h3><p data-i="f2d">A teleporting magician, a swooping pilot, a charging rhino, a piano-playing wolf, a champion sprinter and a stomping hippo.</p></div>
+      <div class="card"><div class="ico">🎬</div><h3 data-i="f3t">Cartoon cutscenes</h3><p data-i="f3d">Every level is introduced by pixelated frames from the cartoon, told with short captions.</p></div>
+      <div class="card"><div class="ico">🌍</div><h3 data-i="f4t">English, Polski, Русский</h3><p data-i="f4d">Pick your language when the game starts. Every caption, menu and message is translated.</p></div>
+      <div class="card"><div class="ico">🔒</div><h3 data-i="f5t">Chronological story</h3><p data-i="f5d">Chapters unlock in order. Finish Chapter 1 and your progress is saved so Chapter 2 opens up.</p></div>
+      <div class="card"><div class="ico">🥕</div><h3 data-i="f6t">Polished little details</h3><p data-i="f6d">Day, sunset and night themes, glowing lamps, dust, sparkles, screen shake and a fullscreen mode (F11).</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2 data-i="h_shots">Screenshots</h2>
+    <p class="lead" data-i="lead_shots">Click any picture to enlarge it.</p>
+    <div class="gallery" id="gallery">
+      <button data-src="img/ch1_level1.jpg"><img loading="lazy" src="img/ch1_level1.jpg" alt="Chapter 1, level 1 - sunny city"><span data-i="s1">Chapter 1 - the chase begins</span></button>
+      <button data-src="img/ch1_level3.jpg"><img loading="lazy" src="img/ch1_level3.jpg" alt="Chapter 1, level 3 - night park"><span data-i="s2">Chapter 1 - night park</span></button>
+      <button data-src="img/chapters.jpg"><img loading="lazy" src="img/chapters.jpg" alt="Chapter select screen"><span data-i="s3">Chapter select</span></button>
+      <button data-src="img/ch2_level2.jpg"><img loading="lazy" src="img/ch2_level2.jpg" alt="Chapter 2, amusement park level"><span data-i="s4">Amusement park</span></button>
+      <button data-src="img/ch2_level4.jpg"><img loading="lazy" src="img/ch2_level4.jpg" alt="Chapter 2, theatre stage level"><span data-i="s5">The stage</span></button>
+      <button data-src="img/ch2_level5.jpg"><img loading="lazy" src="img/ch2_level5.jpg" alt="Chapter 2, stadium level"><span data-i="s6">The stadium</span></button>
+      <button data-src="img/ch2_level6.jpg"><img loading="lazy" src="img/ch2_level6.jpg" alt="Chapter 2, autumn level"><span data-i="s7">Police station park</span></button>
+      <button data-src="img/language.jpg"><img loading="lazy" src="img/language.jpg" alt="Language selection screen"><span data-i="s8">Language chooser</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="chapters">
+  <div class="wrap">
+    <h2 data-i="h_chap">Chapters</h2>
+    <div class="chap">
+      <img loading="lazy" src="img/ch1_level2.jpg" alt="Chapter 1 gameplay at sunset" width="960" height="600">
+      <div>
+        <span class="pill green" data-i="p_open">UNLOCKED FROM THE START</span>
+        <h3 style="margin:0 0 8px;font-size:26px" data-i="c1t">Chapter 1: The Chase</h3>
+        <p style="color:var(--mute);margin:0" data-i="c1d">Three levels. You are the Hare, the Wolf runs after you and never gets tired. Collect carrots, jump over bushes and stomp the Wolf's head to stun him. Reach the yellow balloon at the end of each level.</p>
+      </div>
+    </div>
+    <div class="chap">
+      <div>
+        <span class="pill" data-i="p_lock">LOCKED UNTIL CHAPTER 1 IS FINISHED</span>
+        <h3 style="margin:0 0 8px;font-size:26px" data-i="c2t">Chapter 2: The Big Show</h3>
+        <p style="color:var(--mute);margin:0" data-i="c2d">Six levels, six bosses. Cross pits, stomp patrolling enemies, hit the checkpoint, then face the boss in a locked arena. Each level starts with a cartoon cutscene.</p>
+      </div>
+      <img loading="lazy" src="img/ch2_level1.jpg" alt="Chapter 2 gameplay in the circus" width="960" height="600">
+    </div>
+
+    <h2 style="font-size:26px;margin-top:40px" data-i="h_boss">Meet the bosses</h2>
+    <div class="bosses">
+      <div class="boss"><img loading="lazy" src="img/boss1.jpg" alt=""><div><b data-i="b1">The Magician Cat</b><small data-i="b1d">Teleports around the stage and throws playing cards.</small></div></div>
+      <div class="boss"><img loading="lazy" src="img/boss2.jpg" alt=""><div><b data-i="b2">Pilot Wolf</b><small data-i="b2d">Cruises overhead, then dives. Hit him when he lands.</small></div></div>
+      <div class="boss"><img loading="lazy" src="img/boss3.jpg" alt=""><div><b data-i="b3">Rhino Guard</b><small data-i="b3d">Charges into the wall. Glass falls from the ceiling.</small></div></div>
+      <div class="boss"><img loading="lazy" src="img/boss4.jpg" alt=""><div><b data-i="b4">Wolf the Pianist</b><small data-i="b4d">Fires waves of music notes. Jump the low ones, duck the high ones.</small></div></div>
+      <div class="boss"><img loading="lazy" src="img/boss5.jpg" alt=""><div><b data-i="b5">Champion Wolf</b><small data-i="b5d">Sprints back and forth. Wait for him to run out of breath.</small></div></div>
+      <div class="boss"><img loading="lazy" src="img/boss6.jpg" alt=""><div><b data-i="b6">Chief Hippo</b><small data-i="b6d">Slams the ground and sends shockwaves along the floor.</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="controls">
+  <div class="wrap">
+    <h2 data-i="h_ctrl">Controls</h2>
+    <table>
+      <tr><td data-i="k1">Run</td><td><kbd>←</kbd> <kbd>→</kbd> / <kbd>A</kbd> <kbd>D</kbd></td></tr>
+      <tr><td data-i="k2">Jump (hold for a higher jump)</td><td><kbd>↑</kbd> / <kbd>W</kbd> / <kbd>Space</kbd></td></tr>
+      <tr><td data-i="k3">Start / skip a cutscene / continue</td><td><kbd>Enter</kbd> / <kbd>Space</kbd></td></tr>
+      <tr><td data-i="k4">Fullscreen on / off</td><td><kbd>F11</kbd></td></tr>
+      <tr><td data-i="k5">Back to chapter select (quit from menus)</td><td><kbd>Esc</kbd></td></tr>
+    </table>
+    <p class="lead" style="margin-top:18px" data-i="tip">Tip: landing on an enemy's head is how you beat it - and how you hurt a boss.</p>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap" style="text-align:center">
+    <h2 data-i="h_dl">Download</h2>
+    <p class="lead" style="margin-left:auto;margin-right:auto" data-i="lead_dl">One file, nothing to install. Double-click and play.</p>
+    <div class="btns" style="justify-content:center"><a class="btn" href="download/NuPogodi.exe" download data-i="dl">Download for Windows</a></div>
+    <div class="meta" data-i="dl_meta2">NuPogodi.exe - 32 MB - Windows 10/11 (64-bit)</div>
+    <div style="max-width:760px;margin:34px auto 0;text-align:left">
+      <details><summary data-i="q1">Windows says "Windows protected your PC". Is it safe?</summary><p data-i="a1">The game is not code-signed, so SmartScreen warns about any unknown program. Click "More info", then "Run anyway". The game only reads its own files and writes one small save file.</p></details>
+      <details><summary data-i="q2">Where is my progress saved?</summary><p data-i="a2">In %APPDATA%\NuPogodi\save.json. Delete that file to reset the chapter locks.</p></details>
+      <details><summary data-i="q3">Is it really free?</summary><p data-i="a3">Yes. It is a non-commercial fan project and will stay free.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-i="disc"><b>Unofficial fan project.</b> "Nu, Pogodi!" (Ну, погоди!) and its characters belong to their respective rights holders. This game is made by a fan, is not affiliated with or endorsed by them, is free, and earns no money. If you are a rights holder and want something changed or removed, please get in touch and it will be taken care of.</p>
+    <p>Made with Python and pygame.</p>
+  </div>
+</footer>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Screenshot"><button aria-label="Close">×</button><img alt=""></div>
+
+<script>
+const T = {
+ en:{nav_shots:"Screenshots",nav_chapters:"Chapters",nav_controls:"Controls",nav_dl:"Download",
+  tagline:"A free pixel platformer fan game. Outrun the Wolf, stomp the bad guys, beat six bosses.",
+  dl:"Download for Windows",see:"See screenshots",dl_meta:"Free - Windows 10/11 - 32 MB - no install, just run it",
+  h_feat:"What's inside",lead_feat:"Made with tiny pixels, cartoon cutscenes and a lot of carrots.",
+  f1t:"Two very different chapters",f1d:"Chapter 1 is a chase: the Wolf is right behind you. Chapter 2 is a classic platformer with pits, enemies and bosses.",
+  f2t:"Six boss fights",f2d:"A teleporting magician, a swooping pilot, a charging rhino, a piano-playing wolf, a champion sprinter and a stomping hippo.",
+  f3t:"Cartoon cutscenes",f3d:"Every level is introduced by pixelated frames from the cartoon, told with short captions.",
+  f4t:"English, Polski, Русский",f4d:"Pick your language when the game starts. Every caption, menu and message is translated.",
+  f5t:"Chronological story",f5d:"Chapters unlock in order. Finish Chapter 1 and your progress is saved so Chapter 2 opens up.",
+  f6t:"Polished little details",f6d:"Day, sunset and night themes, glowing lamps, dust, sparkles, screen shake and a fullscreen mode (F11).",
+  h_shots:"Screenshots",lead_shots:"Click any picture to enlarge it.",
+  s1:"Chapter 1 - the chase begins",s2:"Chapter 1 - night park",s3:"Chapter select",s4:"Amusement park",s5:"The stage",s6:"The stadium",s7:"Police station park",s8:"Language chooser",
+  h_chap:"Chapters",p_open:"UNLOCKED FROM THE START",p_lock:"LOCKED UNTIL CHAPTER 1 IS FINISHED",
+  c1t:"Chapter 1: The Chase",c1d:"Three levels. You are the Hare, the Wolf runs after you and never gets tired. Collect carrots, jump over bushes and stomp the Wolf's head to stun him. Reach the yellow balloon at the end of each level.",
+  c2t:"Chapter 2: The Big Show",c2d:"Six levels, six bosses. Cross pits, stomp patrolling enemies, hit the checkpoint, then face the boss in a locked arena. Each level starts with a cartoon cutscene.",
+  h_boss:"Meet the bosses",b1:"The Magician Cat",b1d:"Teleports around the stage and throws playing cards.",b2:"Pilot Wolf",b2d:"Cruises overhead, then dives. Hit him when he lands.",
+  b3:"Rhino Guard",b3d:"Charges into the wall. Glass falls from the ceiling.",b4:"Wolf the Pianist",b4d:"Fires waves of music notes. Jump over the low ones.",
+  b5:"Champion Wolf",b5d:"Sprints back and forth. Wait for him to run out of breath.",b6:"Chief Hippo",b6d:"Slams the ground and sends shockwaves along the floor.",
+  h_ctrl:"Controls",k1:"Run",k2:"Jump (hold for a higher jump)",k3:"Start / skip a cutscene / continue",k4:"Fullscreen on / off",k5:"Back to chapter select (quit from menus)",
+  tip:"Tip: landing on an enemy's head is how you beat it - and how you hurt a boss.",
+  h_dl:"Download",lead_dl:"One file, nothing to install. Double-click and play.",dl_meta2:"NuPogodi.exe - 32 MB - Windows 10/11 (64-bit)",
+  q1:"Windows says \"Windows protected your PC\". Is it safe?",a1:"The game is not code-signed, so SmartScreen warns about any unknown program. Click \"More info\", then \"Run anyway\". The game only reads its own files and writes one small save file.",
+  q2:"Where is my progress saved?",a2:"In %APPDATA%\\NuPogodi\\save.json. Delete that file to reset the chapter locks.",
+  q3:"Is it really free?",a3:"Yes. It is a non-commercial fan project and will stay free.",
+  disc:"<b>Unofficial fan project.</b> \"Nu, Pogodi!\" (Ну, погоди!) and its characters belong to their respective rights holders. This game is made by a fan, is not affiliated with or endorsed by them, is free, and earns no money. If you are a rights holder and want something changed or removed, please get in touch and it will be taken care of."},
+ pl:{nav_shots:"Zrzuty ekranu",nav_chapters:"Rozdziały",nav_controls:"Sterowanie",nav_dl:"Pobierz",
+  tagline:"Darmowa pikselowa platformówka stworzona przez fana. Uciekaj przed Wilkiem, skacz po wrogach i pokonaj sześciu bossów.",
+  dl:"Pobierz na Windows",see:"Zobacz zrzuty ekranu",dl_meta:"Za darmo - Windows 10/11 - 32 MB - bez instalacji, po prostu uruchom",
+  h_feat:"Co w środku",lead_feat:"Malutkie piksele, kreskówkowe przerywniki i mnóstwo marchewek.",
+  f1t:"Dwa zupełnie różne rozdziały",f1d:"Rozdział 1 to pościg: Wilk jest tuż za tobą. Rozdział 2 to klasyczna platformówka z dziurami, wrogami i bossami.",
+  f2t:"Sześć walk z bossami",f2d:"Teleportujący się magik, nurkujący pilot, szarżujący nosorożec, wilk pianista, mistrz sprintu i tupiący hipopotam.",
+  f3t:"Kreskówkowe przerywniki",f3d:"Każdy poziom zaczyna się od spikselizowanych kadrów z kreskówki, z krótkimi podpisami.",
+  f4t:"English, Polski, Русский",f4d:"Wybierz język na początku gry. Każdy podpis, menu i komunikat jest przetłumaczony.",
+  f5t:"Chronologiczna historia",f5d:"Rozdziały odblokowują się po kolei. Ukończ Rozdział 1, a postęp zostanie zapisany i otworzy się Rozdział 2.",
+  f6t:"Dopracowane drobiazgi",f6d:"Motywy dzienne, o zachodzie i nocne, świecące lampy, kurz, iskry, drżenie ekranu i tryb pełnoekranowy (F11).",
+  h_shots:"Zrzuty ekranu",lead_shots:"Kliknij obrazek, aby go powiększyć.",
+  s1:"Rozdział 1 - zaczyna się pościg",s2:"Rozdział 1 - nocny park",s3:"Wybór rozdziału",s4:"Wesołe miasteczko",s5:"Scena",s6:"Stadion",s7:"Park przy komisariacie",s8:"Wybór języka",
+  h_chap:"Rozdziały",p_open:"ODBLOKOWANY OD POCZĄTKU",p_lock:"ZABLOKOWANY DO UKOŃCZENIA ROZDZIAŁU 1",
+  c1t:"Rozdział 1: Pościg",c1d:"Trzy poziomy. Jesteś Zającem, a Wilk goni cię i nigdy się nie męczy. Zbieraj marchewki, przeskakuj krzaki i skacz Wilkowi na głowę, aby go ogłuszyć. Dotrzyj do żółtego balonu na końcu poziomu.",
+  c2t:"Rozdział 2: Wielki Show",c2d:"Sześć poziomów, sześciu bossów. Przeskakuj dziury, skacz po patrolujących wrogach, aktywuj punkt kontrolny, a potem stań do walki z bossem na zamkniętej arenie. Każdy poziom zaczyna się kreskówkowym przerywnikiem.",
+  h_boss:"Poznaj bossów",b1:"Kot Iluzjonista",b1d:"Teleportuje się po scenie i rzuca kartami.",b2:"Wilk Pilot",b2d:"Krąży w górze, potem nurkuje. Uderz go, gdy wyląduje.",
+  b3:"Nosorożec Strażnik",b3d:"Szarżuje na ścianę. Z sufitu spada szkło.",b4:"Wilk Pianista",b4d:"Strzela falami nut. Przeskakuj te niskie.",
+  b5:"Wilk Mistrz",b5d:"Biega tam i z powrotem. Poczekaj, aż się zmęczy.",b6:"Hipopotam Naczelnik",b6d:"Uderza w ziemię i wysyła fale uderzeniowe po podłodze.",
+  h_ctrl:"Sterowanie",k1:"Bieg",k2:"Skok (przytrzymaj, by skoczyć wyżej)",k3:"Start / pomiń przerywnik / dalej",k4:"Pełny ekran wł. / wył.",k5:"Powrót do wyboru rozdziału (wyjście z menu)",
+  tip:"Wskazówka: lądowanie na głowie wroga to sposób, by go pokonać - i zranić bossa.",
+  h_dl:"Pobierz",lead_dl:"Jeden plik, nic do instalowania. Kliknij dwa razy i graj.",dl_meta2:"NuPogodi.exe - 32 MB - Windows 10/11 (64-bit)",
+  q1:"Windows pisze „System Windows ochronił ten komputer”. Czy to bezpieczne?",a1:"Gra nie jest podpisana cyfrowo, więc SmartScreen ostrzega przed każdym nieznanym programem. Kliknij „Więcej informacji”, a potem „Uruchom mimo to”. Gra czyta tylko własne pliki i zapisuje jeden mały plik zapisu.",
+  q2:"Gdzie zapisywany jest mój postęp?",a2:"W %APPDATA%\\NuPogodi\\save.json. Usuń ten plik, aby zresetować blokady rozdziałów.",
+  q3:"Czy naprawdę jest darmowa?",a3:"Tak. To niekomercyjny projekt fana i pozostanie darmowy.",
+  disc:"<b>Nieoficjalny projekt fana.</b> „Ну, погоди!” i jego postacie należą do swoich właścicieli praw. Gra została stworzona przez fana, nie jest powiązana z nimi ani przez nich wspierana, jest darmowa i nie przynosi zysku. Jeśli jesteś właścicielem praw i chcesz coś zmienić lub usunąć, skontaktuj się - zostanie to załatwione."},
+ ru:{nav_shots:"Скриншоты",nav_chapters:"Главы",nav_controls:"Управление",nav_dl:"Скачать",
+  tagline:"Бесплатная пиксельная платформенная игра от фаната. Убегай от Волка, прыгай на врагов, победи шестерых боссов.",
+  dl:"Скачать для Windows",see:"Смотреть скриншоты",dl_meta:"Бесплатно - Windows 10/11 - 32 МБ - без установки, просто запусти",
+  h_feat:"Что внутри",lead_feat:"Крошечные пиксели, мультяшные ролики и много морковки.",
+  f1t:"Две совершенно разные главы",f1d:"Глава 1 - погоня: Волк прямо за спиной. Глава 2 - классическая платформенная игра с ямами, врагами и боссами.",
+  f2t:"Шесть битв с боссами",f2d:"Фокусник-телепортатор, пикирующий пилот, носорог-таран, волк-пианист, чемпион-спринтер и топающий бегемот.",
+  f3t:"Мультяшные ролики",f3d:"Каждый уровень начинается с пикселизованных кадров из мультфильма и коротких подписей.",
+  f4t:"English, Polski, Русский",f4d:"Выберите язык при запуске. Все подписи, меню и сообщения переведены.",
+  f5t:"Хронологичная история",f5d:"Главы открываются по порядку. Пройдите главу 1 - прогресс сохранится, и откроется глава 2.",
+  f6t:"Приятные мелочи",f6d:"Дневные, закатные и ночные темы, светящиеся фонари, пыль, искры, тряска экрана и полноэкранный режим (F11).",
+  h_shots:"Скриншоты",lead_shots:"Нажмите на картинку, чтобы увеличить.",
+  s1:"Глава 1 - начинается погоня",s2:"Глава 1 - ночной парк",s3:"Выбор главы",s4:"Парк аттракционов",s5:"Сцена",s6:"Стадион",s7:"Парк у милиции",s8:"Выбор языка",
+  h_chap:"Главы",p_open:"ОТКРЫТА С САМОГО НАЧАЛА",p_lock:"ЗАКРЫТА, ПОКА НЕ ПРОЙДЕНА ГЛАВА 1",
+  c1t:"Глава 1: Погоня",c1d:"Три уровня. Вы - Заяц, а Волк бежит следом и не устаёт. Собирайте морковь, прыгайте через кусты и прыгайте Волку на голову, чтобы оглушить его. Доберитесь до жёлтого шарика в конце уровня.",
+  c2t:"Глава 2: Большое шоу",c2d:"Шесть уровней, шесть боссов. Перепрыгивайте ямы, прыгайте на патрулирующих врагов, пройдите контрольную точку и сразитесь с боссом на закрытой арене. Каждый уровень начинается с мультяшного ролика.",
+  h_boss:"Знакомьтесь с боссами",b1:"Кот-фокусник",b1d:"Телепортируется по сцене и бросает игральные карты.",b2:"Волк-пилот",b2d:"Кружит сверху, потом пикирует. Бейте его, когда он приземлится.",
+  b3:"Носорог-охранник",b3d:"Таранит стену. С потолка падает стекло.",b4:"Волк-пианист",b4d:"Стреляет волнами нот. Перепрыгивайте низкие.",
+  b5:"Волк-чемпион",b5d:"Бегает туда-сюда. Дождитесь, пока он выдохнется.",b6:"Бегемот-начальник",b6d:"Бьёт по земле и пускает по полу ударные волны.",
+  h_ctrl:"Управление",k1:"Бег",k2:"Прыжок (удерживайте для высокого прыжка)",k3:"Старт / пропуск ролика / дальше",k4:"Полный экран вкл. / выкл.",k5:"Назад к выбору главы (выход из меню)",
+  tip:"Подсказка: приземление на голову врага - способ победить его и ранить босса.",
+  h_dl:"Скачать",lead_dl:"Один файл, ничего устанавливать не нужно. Два клика - и играйте.",dl_meta2:"NuPogodi.exe - 32 МБ - Windows 10/11 (64-бит)",
+  q1:"Windows пишет «Система Windows защитила ваш компьютер». Это безопасно?",a1:"Игра не имеет цифровой подписи, поэтому SmartScreen предупреждает о любой незнакомой программе. Нажмите «Подробнее», затем «Выполнить в любом случае». Игра читает только свои файлы и записывает один небольшой файл сохранения.",
+  q2:"Где хранится мой прогресс?",a2:"В %APPDATA%\\NuPogodi\\save.json. Удалите этот файл, чтобы сбросить блокировку глав.",
+  q3:"Она правда бесплатная?",a3:"Да. Это некоммерческий фанатский проект, и он останется бесплатным.",
+  disc:"<b>Неофициальный фанатский проект.</b> «Ну, погоди!» и его персонажи принадлежат их правообладателям. Игра сделана фанатом, не связана с ними и не одобрена ими, бесплатна и не приносит дохода. Если вы правообладатель и хотите что-то изменить или удалить, свяжитесь с нами - это будет сделано."}
+};
+function setLang(l){
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const v = T[l][el.dataset.i]; if(v===undefined) return;
+    if(el.dataset.i==='disc') el.innerHTML=v; else el.textContent=v;
+  });
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.l===l));
+  try{localStorage.setItem('np-lang',l)}catch(e){}
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
+let start='en';
+try{ start = localStorage.getItem('np-lang') || ((navigator.language||'en').slice(0,2)) }catch(e){}
+setLang(T[start] ? start : 'en');
+
+const lb=document.getElementById('lb'), lbi=lb.querySelector('img');
+document.querySelectorAll('#gallery button').forEach(b=>b.addEventListener('click',()=>{lbi.src=b.dataset.src;lb.classList.add('on')}));
+lb.addEventListener('click',()=>lb.classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+</script>
+</body>
+</html>
