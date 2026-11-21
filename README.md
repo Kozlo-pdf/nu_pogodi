@@ -2,7 +2,9 @@
 
 A free, non-commercial, unofficial fan-made pixel platformer inspired by the Soviet cartoon *Nu, Pogodi!* (Ну, погоди!).
 
-**Play / download:** see the website (GitHub Pages) or grab `download/NuPogodi.exe` (Windows 10/11, 64-bit).
+**Website:** https://kozlo-pdf.github.io/nu_pogodi/
+
+**Play / download:** visit the [website](https://kozlo-pdf.github.io/nu_pogodi/) or grab [`download/NuPogodi.exe`](https://kozlo-pdf.github.io/nu_pogodi/download/NuPogodi.exe) (Windows 10/11, 64-bit).
 
 - Chapter 1: a chase platformer (3 levels).
 - Chapter 2: a classic platformer with 6 boss fights.
