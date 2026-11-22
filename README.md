@@ -13,16 +13,14 @@ A free, non-commercial, unofficial fan-made pixel platformer inspired by the Sov
 - English / Polski / Русский.
 
 ## How long to beat
-These are rough estimates for a first playthrough (the game has not been timed by many players yet):
+Measured by the author's own playthrough (so a first-time player will probably need longer):
 
-| Chapter | Levels | Estimated time |
-|---|---|---|
-| 1: The Chase | 3 | 5-10 min |
-| 2: The Big Show | 6 + bosses | 20-30 min |
-| 3: Road Trip | 6 + bosses | 25-40 min |
-| 4: First-Person Hunt | 6 + bosses | 20-30 min |
+| Stat | Time |
+|---|---|
+| Full win (all chapters) | 25:14 |
+| Average play session | 6:18 |
+| One level round | about 18 seconds |
 
-**Whole game: about 1.5-2 hours** (roughly 1 hour if you replay it and know the levels).
 Chapters unlock in order, and progress is saved automatically.
 
 ## Disclaimer
