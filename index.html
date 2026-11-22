@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nu, Pogodi! - Pixel Platformer</title>
-<meta name="description" content="A free fan-made pixel platformer inspired by the Soviet cartoon Nu, Pogodi! Run, stomp, beat bosses. Two chapters, English / Polski / Русский.">
+<meta name="description" content="A free fan-made pixel platformer inspired by the Soviet cartoon Nu, Pogodi! Run, stomp, beat bosses. Four chapters, English / Polski / Русский.">
 <meta property="og:title" content="Nu, Pogodi! - Pixel Platformer">
-<meta property="og:description" content="Free fan-made pixel platformer. Escape the Wolf, then take on six bosses in Chapter 2.">
+<meta property="og:description" content="Free fan-made pixel platformer. Escape the Wolf, then take on bosses in platforming and first-person chapters.">
 <meta property="og:image" content="img/boss1.jpg">
 <meta name="theme-color" content="#0d1030">
 <style>
@@ -186,6 +186,23 @@
       <img loading="lazy" src="img/ch2_level1.jpg" alt="Chapter 2 gameplay in the circus" width="960" height="600">
     </div>
 
+    <div class="chap">
+      <img loading="lazy" src="img/ch3_level3.jpg" alt="Chapter 3 gameplay in the TV center" width="960" height="600">
+      <div>
+        <span class="pill" data-i="p_lock3">LOCKED UNTIL CHAPTER 2 IS FINISHED</span>
+        <h3 style="margin:0 0 8px;font-size:26px" data-i="c3t">Chapter 3: Road Trip</h3>
+        <p style="color:var(--mute);margin:0" data-i="c3d">Six new places from the later episodes: a highway, a village, the TV center, a building site, a science club and a fairy-tale dream. Moving platforms, springs, crushers, lasers and six brand-new bosses.</p>
+      </div>
+    </div>
+    <div class="chap">
+      <div>
+        <span class="pill" data-i="p_lock4">LOCKED UNTIL CHAPTER 3 IS FINISHED</span>
+        <h3 style="margin:0 0 8px;font-size:26px" data-i="c4t">Chapter 4: First-Person Hunt</h3>
+        <p style="color:var(--mute);margin:0" data-i="c4d">A first-person shooter! Fight through six mazes (episodes 17-22: island, supermarket, resort, dacha, snowy forest, the great tree) with your carrot launcher, then beat the boss waiting at the end.</p>
+      </div>
+      <img loading="lazy" src="img/ch4_level1.jpg" alt="Chapter 4 first-person gameplay" width="960" height="600">
+    </div>
+
     <h2 style="font-size:26px;margin-top:40px" data-i="h_boss">Meet the bosses</h2>
     <div class="bosses">
       <div class="boss"><img loading="lazy" src="img/boss1.jpg" alt=""><div><b data-i="b1">The Magician Cat</b><small data-i="b1d">Teleports around the stage and throws playing cards.</small></div></div>
@@ -206,6 +223,8 @@
       <tr><td data-i="k2">Jump (hold for a higher jump)</td><td><kbd>↑</kbd> / <kbd>W</kbd> / <kbd>Space</kbd></td></tr>
       <tr><td data-i="k3">Start / skip a cutscene / continue</td><td><kbd>Enter</kbd> / <kbd>Space</kbd></td></tr>
       <tr><td data-i="k4">Fullscreen on / off</td><td><kbd>F11</kbd></td></tr>
+      <tr><td data-i="k6">Chapter 4: move / turn / fire</td><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / mouse or <kbd>←</kbd> <kbd>→</kbd> / <kbd>Space</kbd> or click</td></tr>
+      <tr><td data-i="k7">Music on / off</td><td><kbd>M</kbd></td></tr>
       <tr><td data-i="k5">Back to chapter select (quit from menus)</td><td><kbd>Esc</kbd></td></tr>
     </table>
     <p class="lead" style="margin-top:18px" data-i="tip">Tip: landing on an enemy's head is how you beat it - and how you hurt a boss.</p>
@@ -250,6 +269,7 @@ const T = {
   f6t:"Polished little details",f6d:"Day, sunset and night themes, glowing lamps, dust, sparkles, screen shake and a fullscreen mode (F11).",
   h_shots:"Screenshots",lead_shots:"Click any picture to enlarge it.",
   s1:"Chapter 1 - the chase begins",s2:"Chapter 1 - night park",s3:"Chapter select",s4:"Amusement park",s5:"The stage",s6:"The stadium",s7:"Police station park",s8:"Language chooser",
+  p_lock3:"LOCKED UNTIL CHAPTER 2 IS FINISHED",p_lock4:"LOCKED UNTIL CHAPTER 3 IS FINISHED",c3t:"Chapter 3: Road Trip",c3d:"Six new places from the later episodes: a highway, a village, the TV center, a building site, a science club and a fairy-tale dream. Moving platforms, springs, crushers, lasers and six brand-new bosses.",c4t:"Chapter 4: First-Person Hunt",c4d:"A first-person shooter! Fight through six mazes (episodes 17-22: island, supermarket, resort, dacha, snowy forest, the great tree) with your carrot launcher, then beat the boss waiting at the end.",k6:"Chapter 4: move / turn / fire",k7:"Music on / off",
   h_chap:"Chapters",p_open:"UNLOCKED FROM THE START",p_lock:"LOCKED UNTIL CHAPTER 1 IS FINISHED",
   c1t:"Chapter 1: The Chase",c1d:"Three levels. You are the Hare, the Wolf runs after you and never gets tired. Collect carrots, jump over bushes and stomp the Wolf's head to stun him. Reach the yellow balloon at the end of each level.",
   c2t:"Chapter 2: The Big Show",c2d:"Six levels, six bosses. Cross pits, stomp patrolling enemies, hit the checkpoint, then face the boss in a locked arena. Each level starts with a cartoon cutscene.",
@@ -275,6 +295,7 @@ const T = {
   f6t:"Dopracowane drobiazgi",f6d:"Motywy dzienne, o zachodzie i nocne, świecące lampy, kurz, iskry, drżenie ekranu i tryb pełnoekranowy (F11).",
   h_shots:"Zrzuty ekranu",lead_shots:"Kliknij obrazek, aby go powiększyć.",
   s1:"Rozdział 1 - zaczyna się pościg",s2:"Rozdział 1 - nocny park",s3:"Wybór rozdziału",s4:"Wesołe miasteczko",s5:"Scena",s6:"Stadion",s7:"Park przy komisariacie",s8:"Wybór języka",
+  p_lock3:"ZABLOKOWANY DO UKOŃCZENIA ROZDZIAŁU 2",p_lock4:"ZABLOKOWANY DO UKOŃCZENIA ROZDZIAŁU 3",c3t:"Rozdział 3: Podróż",c3d:"Sześć nowych miejsc z późniejszych odcinków: szosa, wieś, centrum telewizyjne, plac budowy, klub techników i baśniowy sen. Ruchome platformy, sprężyny, prasy, lasery i sześciu zupełnie nowych bossów.",c4t:"Rozdział 4: Polowanie z perspektywy",c4d:"Strzelanka FPS! Przedrzyj się przez sześć labiryntów (odcinki 17-22: wyspa, supermarket, kurort, dacza, zaśnieżony las, wielka choinka) z wyrzutnią marchewek i pokonaj bossa czekającego na końcu.",k6:"Rozdział 4: ruch / obrót / ogień",k7:"Muzyka wł. / wył.",
   h_chap:"Rozdziały",p_open:"ODBLOKOWANY OD POCZĄTKU",p_lock:"ZABLOKOWANY DO UKOŃCZENIA ROZDZIAŁU 1",
   c1t:"Rozdział 1: Pościg",c1d:"Trzy poziomy. Jesteś Zającem, a Wilk goni cię i nigdy się nie męczy. Zbieraj marchewki, przeskakuj krzaki i skacz Wilkowi na głowę, aby go ogłuszyć. Dotrzyj do żółtego balonu na końcu poziomu.",
   c2t:"Rozdział 2: Wielki Show",c2d:"Sześć poziomów, sześciu bossów. Przeskakuj dziury, skacz po patrolujących wrogach, aktywuj punkt kontrolny, a potem stań do walki z bossem na zamkniętej arenie. Każdy poziom zaczyna się kreskówkowym przerywnikiem.",
@@ -300,6 +321,7 @@ const T = {
   f6t:"Приятные мелочи",f6d:"Дневные, закатные и ночные темы, светящиеся фонари, пыль, искры, тряска экрана и полноэкранный режим (F11).",
   h_shots:"Скриншоты",lead_shots:"Нажмите на картинку, чтобы увеличить.",
   s1:"Глава 1 - начинается погоня",s2:"Глава 1 - ночной парк",s3:"Выбор главы",s4:"Парк аттракционов",s5:"Сцена",s6:"Стадион",s7:"Парк у милиции",s8:"Выбор языка",
+  p_lock3:"ЗАКРЫТО, ПОКА НЕ ПРОЙДЕНА ГЛАВА 2",p_lock4:"ЗАКРЫТО, ПОКА НЕ ПРОЙДЕНА ГЛАВА 3",c3t:"Глава 3: В дороге",c3d:"Шесть новых мест из поздних серий: шоссе, деревня, телецентр, стройка, клуб юных техников и сказочный сон. Движущиеся платформы, пружины, прессы, лазеры и шесть совершенно новых боссов.",c4t:"Глава 4: Охота от первого лица",c4d:"Шутер от первого лица! Пройдите шесть лабиринтов (серии 17-22: остров, супермаркет, курорт, дача, зимний лес, главная ёлка) с морковной пушкой и победите босса в конце.",k6:"Глава 4: ходьба / поворот / огонь",k7:"Музыка вкл. / выкл.",
   h_chap:"Главы",p_open:"ОТКРЫТА С САМОГО НАЧАЛА",p_lock:"ЗАКРЫТА, ПОКА НЕ ПРОЙДЕНА ГЛАВА 1",
   c1t:"Глава 1: Погоня",c1d:"Три уровня. Вы - Заяц, а Волк бежит следом и не устаёт. Собирайте морковь, прыгайте через кусты и прыгайте Волку на голову, чтобы оглушить его. Доберитесь до жёлтого шарика в конце уровня.",
   c2t:"Глава 2: Большое шоу",c2d:"Шесть уровней, шесть боссов. Перепрыгивайте ямы, прыгайте на патрулирующих врагов, пройдите контрольную точку и сразитесь с боссом на закрытой арене. Каждый уровень начинается с мультяшного ролика.",
