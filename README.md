@@ -10,7 +10,12 @@ A free, non-commercial, unofficial fan-made pixel platformer inspired by the Sov
 - Chapter 2: a classic platformer with 6 boss fights.
 - Chapter 3: road-trip platformer with moving platforms, hazards and 6 new bosses.
 - Chapter 4: a first-person maze shooter (6 levels, 6 bosses).
+- Keyboard, mouse (Chapter 4) or **gamepad** (Xbox-style controller; plug it in before or during the game).
 - English / Polski / Русский.
+
+## Controller
+Left stick / D-pad: move. A: jump, confirm and fire. Start: confirm. B: back. Back/Select: mute music.
+Chapter 4: left stick moves, right stick looks, A / X / RB / RT fire.
 
 ## How long to beat
 Measured by the author's own playthrough (so a first-time player will probably need longer):
